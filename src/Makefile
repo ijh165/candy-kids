@@ -14,4 +14,4 @@ candy_kids: $(SRC)
 	$(CC) $(CCFLAGS) $(SRC) -o $(EXE)
 
 clean:
-	rm -f shell *.o
+	rm -f candy_kids *.o
