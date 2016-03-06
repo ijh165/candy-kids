@@ -1,4 +1,4 @@
-// Filename: shell.c
+// Filename: candy_kids.c
 // Created by Ivan Jonathan Hoo and Raymond Chan
 // Copyright (c) 2016 Ivan Jonathan Hoo and Raymond Chan. All rights reserved.
 
