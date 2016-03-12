@@ -5,25 +5,25 @@
 CC = gcc
 CCFLAGS = -std=gnu99 -pthread -lrt -g -Wall -Werror
 
-SRC = candy_kids.c
-EXE = candy_kids
+SRC = candykids.c
+EXE = candykids
 
-# all: candy_kids
+# all: candykids
 
-# candy_kids: $(SRC)
+# candykids: $(SRC)
 # 	$(CC) $(CCFLAGS) $(SRC) -o $(EXE)
 
 # clean:
-# 	rm -f candy_kids *.o
+# 	rm -f candykids *.o
 
-all: candy_kids
+all: candykids
 
 # Compile all .c files to .o files
 %.o : %.c
 	$(CC) -c $(CCFLAGS) $<
 
-candy_kids: candy_kids.o bbuff.o stats.o
-	$(CC) $(CCFLAGS) -o $(EXE) candy_kids.o bbuff.o stats.o
+candykids: candykids.o bbuff.o stats.o
+	$(CC) $(CCFLAGS) -o $(EXE) candykids.o bbuff.o stats.o
 
 clean:
-	rm -f core *.o candy_kids
+	rm -f core *.o candykids
