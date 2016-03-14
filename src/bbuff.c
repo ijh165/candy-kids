@@ -43,7 +43,7 @@ void bbuff_blocking_insert(void* item)
 	if(avail_slots > 0){
 		buff[BUFFER_SIZE - avail_slots] = item;
 		avail_slots--;
-		printf("avail_slots of buffer after insert: %d\n", avail_slots);
+		/*printf("avail_slots of buffer after insert: %d\n", avail_slots);*/
 	}
 	sem_post(&mutex);
 	sem_post(&fullbuffers); 
@@ -62,7 +62,7 @@ void* bbuff_blocking_extract(void)
 		free(item_ptr);*/
 		item_ptr = buff[BUFFER_SIZE - (avail_slots+1)];
 		avail_slots++;
-		printf("avail_slots of buffer after extract: %d\n", avail_slots);
+		/*printf("avail_slots of buffer after extract: %d\n", avail_slots);*/
 	}
 	sem_post(&mutex);
 	sem_post(&emptybuffers); 
