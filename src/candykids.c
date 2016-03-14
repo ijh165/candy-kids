@@ -173,12 +173,15 @@ void* kid_thread(void* arg)
 	int time_wait;
 	for(;;) {
 		time_wait = rand()%2;
+		//extract from buffer
 		candy_t* candy_ptr = bbuff_blocking_extract();
 		printf("Kid %d eats candy & sleeps %ds\n", i, time_wait);
 		//process item into the stats module
 		if(candy_ptr!=NULL) {
 			stats_record_consumed(candy_ptr->factory_number, current_time_in_ms()-candy_ptr->time_stamp_in_ms);
 		}
+		//free the extracted item
+		free(candy_ptr);
 		//sleep
 		sleep(time_wait);
 	}
