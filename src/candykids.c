@@ -15,8 +15,7 @@
 #include <sys/types.h>
 #include "bbuff.h"
 #include "stats.h"
-
-
+#include <stdint.h>
 
 
 #define ARG_COUNT 3
@@ -39,7 +38,7 @@ void launch_threads(int count, pthread_t *thread, void* (*thread_function)(void*
 
 void* factory_thread(void* arg);
 void* kid_thread(void* arg);
-//void* (*thread_function[2])(void*);
+
 
 
 _Bool stop_thread = false;
@@ -47,55 +46,70 @@ _Bool stop_thread = false;
 int main(int argc, char *argv[]){
 	
 	//1. Extract Arguments
-	int Factories = 0, Kids = 0, Seconds = 0;
-	int *array[3] = {&Factories, &Kids, &Seconds};	
+	int factories = 0, kids = 0, seconds = 0;
+	int *array[3] = {&factories, &kids, &seconds};
 
-	for(int i = 1; i <= ARG_COUNT; i++){
-		sscanf(argv[i], "%d", array[i-1]);
-	}
-	
-		if(argc != 4 || Factories <= 0 || Kids <= 0 || Seconds <= 0){
+	if(argc != 4) {
 		printf(ERR_MSG);
 		exit(1);
 	}
-		
-	//2. Initialize Modules
+
+	for(int i = 1; i <= ARG_COUNT; i++){
+		sscanf(argv[i], "%d", array[i-1]);
+		if(argv[i]<=0) {
+			printf(ERR_MSG);
+			exit(1);
+		}
+	}
 	
+	//2. Initialize Modules
+	bbuff_init();
+	stats_init(factories);
 
 	//3. Launch candy-factory threads
 	
-	pthread_t *factory_thread_IDs = malloc(Factories *(sizeof(pthread_t)));
-	launch_threads(Factories, factory_thread_IDs, (void*)factory_thread);
+	pthread_t *factory_thread_IDs = malloc(factories *(sizeof(pthread_t)));
+	launch_threads(factories, factory_thread_IDs, (void*)factory_thread);
 	
 	//4. Launch Kid threads
-	pthread_t *kid_thread_IDs = malloc(Kids *(sizeof(pthread_t)));
-	launch_threads(Kids, kid_thread_IDs, (void*)kid_thread);
+	pthread_t *kid_thread_IDs = malloc(kids *(sizeof(pthread_t)));
+	launch_threads(kids, kid_thread_IDs, (void*)kid_thread);
 	
-	// 5. Wait for requested time
-	for(int i=0; i<Seconds; i++) {
+	//5. Wait for requested time
+	for(int i=0; i<seconds; i++) {
 		printf("Time: %ds\n", i+1);
 		sleep(1);
 	}
-	// 6. Stop candy-factory threads
-	//Wait, sleep the main thread and allow the factory threads to produce for Seconds and come back to join it
-	sleep(Seconds);
+	
+	//6. Stop candy-factory threads
+	//Wait, sleep the main thread and allow the factory threads to produce for seconds and come back to join it
+	sleep(seconds);
 	stop_thread = true;
 	
-	for(int i=0; i<Factories; i++) {
+	for(int i=0; i<factories; i++) {
 		pthread_join(factory_thread_IDs[i], NULL);
 	}
 
-
+	
+	//7. Wait until no more candy
+	while(!bbuff_is_empty());
+	
+	
 	//8. Stop kid threads
 
-	for(int i=0; i<Kids; i++) {
+	for(int i=0; i<kids; i++) {
 		pthread_cancel(kid_thread_IDs[i]);
 		pthread_join(kid_thread_IDs[i], NULL);
 	}
+
+	//9. Print statistics
 	
-	// 10. Cleanup any allocated memory
+	//10. Cleanup any allocated memory
+	
+	//stats_cleanup();
 	free(factory_thread_IDs);
 	free(kid_thread_IDs);
+	
 	printf("Closing\n");
 	
 	return 0;
@@ -108,7 +122,7 @@ void launch_threads(int count, pthread_t *thread, void* (*thread_function)(void*
 	pthread_t id;
 	
 	for(int i=0; i<count; i++) {
-		err = pthread_create(&id, NULL, thread_function, (void*)i);
+		err = pthread_create(&id, NULL, thread_function, (void*)(intptr_t)i);
 		if(err != 0){
 			printf("gg\n");
 		}
@@ -119,7 +133,7 @@ void launch_threads(int count, pthread_t *thread, void* (*thread_function)(void*
 
 void* factory_thread(void* arg)
 {
-	int i = (int)arg;
+	int i = (intptr_t)arg;
 	printf("In factory thread ");
 	printf("%d\n", i); 
 	// mutex here 
@@ -128,10 +142,14 @@ void* factory_thread(void* arg)
 		time_wait = rand()%4;
 		printf("Factory %d ships candy & waits %ds\n", i, time_wait);
 		// allocate new candy items
+		/*
 		candy_t *candy = malloc(sizeof(candy_t));
 		candy->factory_number = i;
-		candy->time_stamp_in_ms = 1337;//current_time_in_ms() piece of shit won't work, have to wait for arvin reply
+		current_time_in_ms();
+		candy->time_stamp_in_ms = 5;
 		bbuff_blocking_insert(candy);
+		stats_record_produced(i);
+		*/
 		sleep(time_wait);
 	}
 	printf("Candy-factory %d done\n", i);
@@ -142,25 +160,21 @@ void* factory_thread(void* arg)
 }
 
 void* kid_thread(void* arg){
-	printf("In kid thread\n");
+	
+	int i = (intptr_t)arg;
+	printf("In kid thread %d\n", i);
 	//mutex here
 	int time_wait;
 	for(;;){
 	time_wait = rand()%2;
-		bbuff_blocking_extract();
+		//bbuff_blocking_extract();
+		printf("Kid %d eats candy & sleeps %ds\n", i, time_wait);
 		// process item into the stats module
 				sleep(time_wait);
 	}
 	return NULL;
 }
 
-/*
-double current_time_in_ms(void){
-	struct timespec now;
-	clock_gettime (CLOCK_REALTIME, &now);
 
-	return now.tv_sec* 1000.0 + now.tv_nsec/1000000.0;
-}
-*/
 
 
