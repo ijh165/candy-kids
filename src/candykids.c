@@ -18,7 +18,8 @@
 #include "stats.h"
 
 #define ARG_COUNT 3
-#define ARG_ERR_MSG "Error, you entered an invalid argument\n"
+#define INVALID_ARG_ERR "Error, you entered an invalid argument, exiting program\n"
+#define LAUNCH_THREAD_FAIL_ERR "Failed to launch thread, exiting program\n"
 
 //candy struct
 typedef struct candy
@@ -31,9 +32,12 @@ typedef struct candy
 _Bool stop_thread = false;
 
 //forward declarations
+_Bool invalid_args(int argc, char* argv[]);
 void launch_threads(int count, pthread_t* thread, void* (*thread_function)(void*));
 void* factory_thread(void* arg);
 void* kid_thread(void* arg);
+
+
 
 // 1. Extract arguments
 // 2. Initialize modules
@@ -45,27 +49,23 @@ void* kid_thread(void* arg);
 // 8. Stop kid threads
 // 9. Print statistics
 // 10. Cleanup any allocated memory
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {	
 	//1. Extract Arguments
 
 	int factories = 0, kids = 0, seconds = 0;
 	int* array[3] = {&factories, &kids, &seconds};
 
-	if(argc != 4) {
-		printf(ARG_ERR_MSG);
+	if(invalid_args(argc, argv)) {
+		printf(INVALID_ARG_ERR);
 		exit(1);
 	}
 
-	for(int i = 1; i <= ARG_COUNT; i++){
+	for(int i=1; i<=ARG_COUNT; i++){
 		sscanf(argv[i], "%d", array[i-1]);
-		if(argv[i]<=0) {
-			printf(ARG_ERR_MSG);
-			exit(1);
-		}
 	}
 	
-
+	
 	//2. Initialize Modules
 	bbuff_init();
 	stats_init(factories);
@@ -123,6 +123,23 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
+_Bool invalid_args(int argc, char* argv[])
+{
+	_Bool retVal = false;
+
+	if(argc != 4) {
+		retVal = true;
+	}
+
+	for(int i=1; i<=ARG_COUNT; i++) {
+		if(atoi(argv[i])<1) {
+			retVal = true;
+		}
+	}
+
+	return retVal;
+}
+
 void launch_threads(int count, pthread_t* thread, void* (*thread_function)(void*))
 {
 	int err = 0;
@@ -131,7 +148,7 @@ void launch_threads(int count, pthread_t* thread, void* (*thread_function)(void*
 	for(int i=0; i<count; i++) {
 		err = pthread_create(&id, NULL, thread_function, (void*)(intptr_t)i);
 		if(err != 0){
-			printf("gg\n");
+			printf(LAUNCH_THREAD_FAIL_ERR);
 		}
 		thread[i] = id;
 	}
@@ -141,8 +158,7 @@ void launch_threads(int count, pthread_t* thread, void* (*thread_function)(void*
 void* factory_thread(void* arg)
 {
 	int i = (intptr_t)arg;
-	printf("In factory thread ");
-	printf("%d\n", i); 
+	printf("In factory thread %d\n", i);
 	// mutex here 
 	int time_wait;
 	while(!stop_thread) {
@@ -174,7 +190,7 @@ void* kid_thread(void* arg)
 	for(;;) {
 		time_wait = rand()%2;
 		//extract from buffer
-		candy_t* candy_ptr = bbuff_blocking_extract();
+		candy_t* candy_ptr = (candy_t*) bbuff_blocking_extract();
 		printf("Kid %d eats candy & sleeps %ds\n", i, time_wait);
 		//process item into the stats module
 		if(candy_ptr!=NULL) {

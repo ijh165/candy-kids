@@ -1,4 +1,5 @@
 #define _POSIX_C_SOURCE 199309L
+#define BUFFER_SIZE 10
 
 #include "bbuff.h"
 #include <time.h>
@@ -8,6 +9,7 @@
 #include <semaphore.h>
 #include <string.h>
 
+//variables
 void* buff[BUFFER_SIZE];
 int avail_slots;
 
@@ -15,7 +17,6 @@ int avail_slots;
 sem_t fullbuffers;
 sem_t emptybuffers;
 sem_t mutex;
-
 
 double current_time_in_ms(void)
 {
@@ -51,25 +52,26 @@ void bbuff_blocking_insert(void* item)
 
 void* bbuff_blocking_extract(void)
 {
-	void* item_ptr_returned = NULL;
+	void* item_ptr = NULL;
 	sem_wait(&fullbuffers);
 	sem_wait(&mutex);
-	if(avail_slots < 10) {
-		void* item_ptr = buff[BUFFER_SIZE - (avail_slots+1)];
+	if(avail_slots < BUFFER_SIZE) {
+		/*void* item_ptr = buff[BUFFER_SIZE - (avail_slots+1)];
 		item_ptr_returned = malloc(sizeof(*item_ptr));
 		memcpy(item_ptr_returned, item_ptr, sizeof(*item_ptr));
-		free(item_ptr);
+		free(item_ptr);*/
+		item_ptr = buff[BUFFER_SIZE - (avail_slots+1)];
 		avail_slots++;
 		printf("avail_slots of buffer after extract: %d\n", avail_slots);
 	}
 	sem_post(&mutex);
 	sem_post(&emptybuffers); 
-	return item_ptr_returned;
+	return item_ptr;
 }
 
 _Bool bbuff_is_empty(void)
 {
-	if(avail_slots == 10){
+	if(avail_slots == BUFFER_SIZE){
 		return true;
 	}
 	return false;
