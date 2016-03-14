@@ -3,11 +3,6 @@
 
 #define BUFFER_SIZE 10
 
-typedef struct candy
-{
-	int factory_number;
-	double time_stamp_in_ms;
-} candy_t;
 double current_time_in_ms(void);
 void bbuff_init(void);
 void bbuff_blocking_insert(void* item);

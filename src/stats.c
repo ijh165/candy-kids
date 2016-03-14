@@ -1,6 +1,7 @@
 #include "stats.h"
 #include <stdlib.h>
 #include <stdio.h>
+
 int num_factories = 0;
 
 typedef struct statFactory
@@ -12,13 +13,12 @@ typedef struct statFactory
 	double avgDelay;
 	double maxDelay;
 	double totalDelay;
-}statistics;
+} statistics;
 
-statistics *statsAr;	
+statistics* statsAr;
 
 void stats_init(int num_producers)
 {
-/*
 	num_factories = num_producers;
 	statsAr = malloc(num_producers*sizeof(statistics));
 	for(int i = 0; i< num_producers; i++){
@@ -30,7 +30,7 @@ void stats_init(int num_producers)
 		statsAr[i].maxDelay = -1;
 		statsAr[i].totalDelay = 0;
 	}
-*/
+
 	return;
 }
 
@@ -44,18 +44,13 @@ void stats_cleanup(void)
 
 void stats_record_produced(int factory_number)
 {
-/*
 	statsAr[factory_number].MadeNum++;
-	//statsAr[factory_number] = malloc(sizeof(statistics));
-	 	
-	//printf("statsAr[%d] is %d\n", factory_number, statsAr[factory_number].FactoryNum);
-*/
 	return;
 }
 
 void stats_record_consumed(int factory_number, double delay_in_ms)
 {
-	/*
+	
 	statsAr[factory_number].EatenNum++;
 	if(statsAr[factory_number].minDelay == -1){
 		statsAr[factory_number].minDelay = delay_in_ms;
@@ -73,7 +68,7 @@ void stats_record_consumed(int factory_number, double delay_in_ms)
 		statsAr[factory_number].totalDelay+= delay_in_ms;
 		statsAr[factory_number].avgDelay = statsAr[factory_number].totalDelay/(double)statsAr[factory_number].EatenNum;	
 	}
-	*/
+	
 	return;
 }
 
