@@ -1,6 +1,3 @@
-#define _POSIX_C_SOURCE 199309L
-#define BUFFER_SIZE 10
-
 #include "bbuff.h"
 #include <time.h>
 #include <stdlib.h>
@@ -8,6 +5,8 @@
 #include <stdio.h>
 #include <semaphore.h>
 #include <string.h>
+
+#define BUFFER_SIZE 10
 
 //variables
 void* buff[BUFFER_SIZE];

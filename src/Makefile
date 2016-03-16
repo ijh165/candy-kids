@@ -3,7 +3,7 @@
 #  Copyright (c) 2016 Ivan Jonathan Hoo. All rights reserved.
 
 CC = gcc
-CCFLAGS = -std=gnu99 -pthread -lrt -g -Wall -Werror
+CCFLAGS = -std=gnu99 -pthread -lrt -D_POSIX_C_SOURCE=199309L -g -Wall -Werror
 
 SRC = candykids.c
 EXE = candykids
