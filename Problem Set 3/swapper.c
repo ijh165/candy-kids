@@ -13,10 +13,10 @@
 #define NUM_SWAPS 2000000 
 
 /* Global data */
-
+int test =0;
 int ar[DATA_SIZE] = {};
 pthread_t tid[NUM_THREADS];
-pthread_mutex_t lock;
+pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 
 /* Functions */ 
 
@@ -29,7 +29,11 @@ void* check(void *arg);
 
 int main(int argc, char *argv[]){
 	initialize_ar();
+	
 	int err = 0;
+	       int check_thread_id = 0;
+      pthread_t check_thread;
+       check_thread_id = pthread_create(&check_thread, NULL, &check, NULL);
 	for(int i = 0; i<NUM_THREADS; i++){
 		err = pthread_create(&(tid[i]), NULL, &doSomeThing, NULL);	
 	}
@@ -38,12 +42,28 @@ int main(int argc, char *argv[]){
        pthread_join(tid[i], NULL);
        }
        
-       int check_thread_id = 0;
-       pthread_t check_thread;
-       check_thread_id = pthread_create(&check_thread, NULL, &check, NULL);
+
        pthread_cancel(check_thread_id);
        pthread_join(check_thread_id, NULL);
            pthread_mutex_destroy(&lock);
+
+
+/*
+int j, temp;
+  for(int i=1;i<100;i++){
+      temp=ar[i];
+      j=i-1;
+      while((temp<ar[j])&&(j>=0)){
+      ar[j+1]=ar[j];
+          j=j-1;
+      }
+      ar[j+1]=temp;
+  }
+
+  printf("After sorting: ");
+  for(int i=0;i<100;i++)
+      printf(" %d",ar[i]);
+ */ 
     return 0;
 
 }
@@ -62,6 +82,7 @@ void* doSomeThing(void *arg)
 pthread_mutex_lock(&lock);
 	int x, y;
 	for(int i = 0; i < NUM_SWAPS; i ++){
+		//printf("swaps\n");
 		x = rand_func();
 		y = rand_func();
 		swap(x, y);
@@ -71,10 +92,12 @@ pthread_mutex_unlock(&lock);
 }
 
 void swap(int x, int y){
-
-	ar[x] = ar[x] + ar[y];
-	ar[y] = ar[x] - ar[y];
-	ar[x] = ar[x] - ar[y];
+	int temp = ar[x];
+	ar[x] = ar[y];
+	ar[y] = temp;
+	//ar[x] = ar[x] + ar[y];
+	//ar[y] = ar[x] - ar[y];
+	//ar[x] = ar[x] - ar[y];
 }
 
 void initialize_ar(void){
@@ -85,7 +108,8 @@ void initialize_ar(void){
 }
 
 void* check(void *arg){
-int x =0;
+int x = 0;
+
 	for(;;){
 		sleep(1);
 		printf("*\n");
