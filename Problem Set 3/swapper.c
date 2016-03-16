@@ -82,7 +82,6 @@ void* doSomeThing(void *arg)
 pthread_mutex_lock(&lock);
 	int x, y;
 	for(int i = 0; i < NUM_SWAPS; i ++){
-		//printf("swaps\n");
 		x = rand_func();
 		y = rand_func();
 		swap(x, y);
