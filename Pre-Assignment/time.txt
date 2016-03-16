@@ -1,0 +1,181 @@
+We run the timing 5 times and take the average. We use the linux command "time" and we take the real time instead of the user or sys time.
+
+**************************************************************************************************
+
+#1
+
+COMMANDS RUN:
+
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ gcc -o MCSC1 MCSC1.c
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ time ./MCSC1
+
+real	0m0.008s
+user	0m0.000s
+sys	0m0.001s
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ time ./MCSC1
+
+real	0m0.006s
+user	0m0.000s
+sys	0m0.002s
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ time ./MCSC1
+
+real	0m0.007s
+user	0m0.000s
+sys	0m0.002s
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ time ./MCSC1
+
+real	0m0.006s
+user	0m0.000s
+sys	0m0.002s
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ time ./MCSC1
+
+real	0m0.007s
+user	0m0.000s
+sys	0m0.002s
+
+AVERAGE TIME = (0.008s + 0.006s + 0.007s + 0.006s + 0.007s)/5 = 6.8ms
+
+**************************************************************************************************
+
+#2
+
+COMMANDS RUN:
+
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ gcc -o MCSC2 MCSC2.c
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ time ./MCSC2
+
+real	0m0.009s
+user	0m0.000s
+sys	0m0.002s
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ time ./MCSC2
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.000s
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ time ./MCSC2
+
+real	0m0.006s
+user	0m0.001s
+sys	0m0.002s
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ time ./MCSC2
+
+real	0m0.007s
+user	0m0.000s
+sys	0m0.002s
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ time ./MCSC2
+
+real	0m0.007s
+user	0m0.000s
+sys	0m0.002s
+
+AVERAGE TIME = (0.009s + 0.006s + 0.006s + 0.007s + 0.007s)/5 = 7ms
+
+**************************************************************************************************
+
+#3
+
+COMMANDS RUN: 
+
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ gcc -o MCSC3 MCSC3.c
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ time ./MCSC3
+Received strings: R
+Received string: C
+
+real	0m0.011s
+user	0m0.003s
+sys	0m0.000s
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ time ./MCSC3
+Received strings: R
+Received string: C
+
+real	0m0.007s
+user	0m0.002s
+sys	0m0.000s
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ time ./MCSC3
+Received strings: R
+Received string: C
+
+real	0m0.007s
+user	0m0.000s
+sys	0m0.002s
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ time ./MCSC3
+Received strings: R
+Received string: C
+
+real	0m0.008s
+user	0m0.000s
+sys	0m0.002s
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ time ./MCSC3
+Received strings: R
+Received string: C
+
+real	0m0.006s
+user	0m0.000s
+sys	0m0.002s
+
+AVERAGE TIME = (0.011s + 0.007s + 0.007s + 0.008s + 0.006s)/5 = 7.8ms
+
+**************************************************************************************************
+
+#4
+
+COMMANDS RUN: 
+
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ gcc -pthread -o MCSC4 MCSC4.c
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ time ./MCSC4
+Hello
+Enter first thread, val of shared_integer: 0
+looping in first thread
+Enter second thread, val of shared_integer: 0
+Exit second thread, val of shared_integer: 1
+Exit first thread, val of shared_integer: 0
+
+real	0m0.011s
+user	0m0.000s
+sys	0m0.003s
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ time ./MCSC4
+Hello
+Enter first thread, val of shared_integer: 0
+looping in first thread
+Enter second thread, val of shared_integer: 0
+Exit second thread, val of shared_integer: 1
+Exit first thread, val of shared_integer: 0
+
+real	0m0.009s
+user	0m0.000s
+sys	0m0.003s
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ time ./MCSC4
+Hello
+Enter first thread, val of shared_integer: 0
+looping in first thread
+Enter second thread, val of shared_integer: 0
+Exit second thread, val of shared_integer: 1
+Exit first thread, val of shared_integer: 0
+
+real	0m0.007s
+user	0m0.003s
+sys	0m0.000s
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ time ./MCSC4
+Hello
+Enter first thread, val of shared_integer: 0
+looping in first thread
+Enter second thread, val of shared_integer: 0
+Exit second thread, val of shared_integer: 1
+Exit first thread, val of shared_integer: 0
+
+real	0m0.007s
+user	0m0.000s
+sys	0m0.002s
+ihoo@cs-sc4050u-c04:~/sfuhome/CMPT300/PROJECT3/candy-kids/Pre-Assignment$ time ./MCSC4
+Hello
+Enter first thread, val of shared_integer: 0
+looping in first thread
+Enter second thread, val of shared_integer: 0
+Exit second thread, val of shared_integer: 1
+Exit first thread, val of shared_integer: 0
+
+real	0m0.007s
+user	0m0.000s
+sys	0m0.003s
+
+AVERAGE TIME = (0.011s + 0.009s + 0.007s + 0.007s + 0.007s)/5 = 8.2ms

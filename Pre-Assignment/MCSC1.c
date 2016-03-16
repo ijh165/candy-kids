@@ -5,6 +5,7 @@
 ***/
 
 void minimal_function(void);
+
 int main(int argc, char *argv[]){
 	/* #1 */
 	minimal_function();

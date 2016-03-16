@@ -1,4 +1,5 @@
 /***
+
 4. (40 points) Measure the cost of a thread switching. A possible measurement strategy (
 on a single-processor machine) is provided below as a hint:
 
@@ -27,11 +28,11 @@ void* doSomeThing2(void *arg);
 int main(int argc, char *argv[]){
 
 	//pthread_mutex_init(&lock, NULL);
-printf("Hello\n");
-        pthread_create(&(tid[0]), NULL, &doSomeThing, NULL); 
+	printf("Hello\n");
+	pthread_create(&(tid[0]), NULL, &doSomeThing, NULL); 
 	//shared_integer = 1;       
-        pthread_create(&(tid[1]), NULL, &doSomeThing2, NULL);
-	    pthread_join(tid[0], NULL);
+	pthread_create(&(tid[1]), NULL, &doSomeThing2, NULL);
+	pthread_join(tid[0], NULL);
     pthread_join(tid[1], NULL);
 	return 0;
 }
@@ -65,14 +66,11 @@ void* doSomeThing2(void *arg)
 {
 	//int initial_val = shared_integer;
 	pthread_mutex_lock(&lock);
-
 	printf("Enter second thread, val of shared_integer: %d\n", shared_integer);
 	while(shared_integer==1){
-
 		printf("looping in second thread\n");
 		pthread_cond_wait(&condVar2, &lock);
 	}
-
 	if(shared_integer == 1){
 		shared_integer = 0;
 	}
