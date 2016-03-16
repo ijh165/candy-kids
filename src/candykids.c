@@ -81,14 +81,14 @@ int main(int argc, char* argv[])
 
 	//5. Wait for requested time
 	for(int i=0; i<seconds; i++) {
-		printf("Time: %ds\n", i+1);
 		sleep(1);
+		printf("Time: %ds\n", i+1);
 	}
 	
 
 	//6. Stop candy-factory threads
 	//Wait, sleep the main thread and allow the factory threads to produce for seconds and come back to join it
-	sleep(seconds);
+	/*sleep(seconds);*/
 	stop_thread = true;
 	
 	for(int i=0; i<factories; i++) {
