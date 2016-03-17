@@ -51,9 +51,9 @@ void bbuff_blocking_insert(void* item)
 
 void* bbuff_blocking_extract(void)
 {
-	void* item_ptr = NULL;
 	sem_wait(&fullbuffers);
 	sem_wait(&mutex);
+	void* item_ptr = NULL;
 	if(avail_slots < BUFFER_SIZE) {
 		/*void* item_ptr = buff[BUFFER_SIZE - (avail_slots+1)];
 		item_ptr_returned = malloc(sizeof(*item_ptr));
