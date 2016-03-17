@@ -175,7 +175,7 @@ void* factory_thread(void* arg)
 	// When the thread finishes, print the message such as the following (for thread 0): “Candy-factory 0 done"
 	printf("Candy-factory %d done\n", i);
 	
-	return NULL;
+	pthread_exit(NULL);
 }
 
 void* kid_thread(void* arg)
@@ -198,5 +198,6 @@ void* kid_thread(void* arg)
 		//sleep
 		sleep(time_wait);
 	}
-	return NULL;
+
+	pthread_exit(NULL);
 }
