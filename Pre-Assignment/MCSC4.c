@@ -60,6 +60,7 @@ void* doSomeThing(void *arg)
 	printf("Exit first thread, val of shared_integer: %d\n", shared_integer);
 	pthread_cond_signal(&condVar2);
 	pthread_mutex_unlock(&lock);
+	pthread_exit(NULL);
 
 }
 void* doSomeThing2(void *arg)
@@ -80,4 +81,5 @@ void* doSomeThing2(void *arg)
 	printf("Exit second thread, val of shared_integer: %d\n", shared_integer);
 	pthread_mutex_unlock(&lock);
 	pthread_cond_signal(&condVar1);
+	pthread_exit(NULL);
 }

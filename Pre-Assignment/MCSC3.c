@@ -5,7 +5,7 @@
 Your test program starts with a main process which then creates two pipes with a read file descriptor and a write file descriptor in each pipe
 
 ***/
-
+#include <unistd.h>
 #include <stdio.h>
 #include <string.h>
 #include <pthread.h>
