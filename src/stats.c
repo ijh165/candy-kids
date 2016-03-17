@@ -1,7 +1,7 @@
 #include "stats.h"
 #include <stdlib.h>
 #include <stdio.h>
-
+#include <semaphore.h>
 int num_factories = 0;
 sem_t statmutex;
 
