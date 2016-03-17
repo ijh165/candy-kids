@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 int num_factories = 0;
+sem_t statmutex;
 
 typedef struct stats
 {
@@ -25,11 +26,13 @@ void stats_init(int num_producers)
 		stats_arr[i].factoryNum = i;
 		stats_arr[i].madeNum = 0;
 		stats_arr[i].eatenNum = 0;
-		stats_arr[i].minDelay = -1;	
+		stats_arr[i].minDelay = -1;
 		stats_arr[i].avgDelay = -1;
 		stats_arr[i].maxDelay = -1;
 		stats_arr[i].totalDelay = 0;
 	}
+    sem_init(&statmutex, 0, 1);
+
 }
 
 void stats_cleanup(void)
@@ -40,7 +43,10 @@ void stats_cleanup(void)
 
 void stats_record_produced(int factory_number)
 {
+    sem_wait(&statmutex);
 	stats_arr[factory_number].madeNum++;
+    sem_post(&statmutex);
+
 }
 
 void stats_record_consumed(int factory_number, double delay_in_ms)
@@ -57,10 +63,10 @@ void stats_record_consumed(int factory_number, double delay_in_ms)
 			stats_arr[factory_number].minDelay = delay_in_ms;
 		}
 		if(stats_arr[factory_number].maxDelay < delay_in_ms) {
-			stats_arr[factory_number].maxDelay = delay_in_ms;	
+			stats_arr[factory_number].maxDelay = delay_in_ms;
 		}
 		stats_arr[factory_number].totalDelay += delay_in_ms;
-		stats_arr[factory_number].avgDelay = stats_arr[factory_number].totalDelay/(double)stats_arr[factory_number].eatenNum;	
+		stats_arr[factory_number].avgDelay = stats_arr[factory_number].totalDelay/(double)stats_arr[factory_number].eatenNum;
 	}
 }
 
