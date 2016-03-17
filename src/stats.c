@@ -32,8 +32,7 @@ void stats_init(int num_producers)
 		stats_arr[i].maxDelay = -1;
 		stats_arr[i].totalDelay = 0;
 	}
-    sem_init(&statmutex, 0, 1);
-
+	sem_init(&statmutex, 0, 1);
 }
 
 void stats_cleanup(void)
@@ -44,9 +43,9 @@ void stats_cleanup(void)
 
 void stats_record_produced(int factory_number)
 {
-    sem_wait(&statmutex);
+	sem_wait(&statmutex);
 	stats_arr[factory_number].madeNum++;
-    sem_post(&statmutex);
+	sem_post(&statmutex);
 
 }
 
