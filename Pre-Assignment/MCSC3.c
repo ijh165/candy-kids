@@ -43,7 +43,7 @@ int main(int argc, char *argv[]){
 		clock_gettime(CLOCK_MONOTONIC_RAW, &start_time1);
         tmp2 = timespec_to_ms(&start_time1);
 		printf("Received strings: %f\n", tmp2-tmp1);
-			//	printf("Received strings: %f\n", tmp2);
+		//	printf("Received strings: %f\n", tmp2);
 
 
 		write(gd[1], (const void *)"C", (strlen((const void *)"C")+1));
@@ -55,7 +55,7 @@ int main(int argc, char *argv[]){
 		struct timespec start_time;
 		clock_gettime(CLOCK_MONOTONIC_RAW, &start_time);
 		double tmp = timespec_to_ms(&start_time);
-//printf("Received string: %f\n", tmp);
+		//printf("Received string: %f\n", tmp);
 		write(fd[1], &tmp, sizeof(tmp));
 
 
