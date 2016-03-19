@@ -46,11 +46,12 @@ void stats_record_produced(int factory_number)
 	sem_wait(&statmutex);
 	stats_arr[factory_number].madeNum++;
 	sem_post(&statmutex);
-
 }
 
 void stats_record_consumed(int factory_number, double delay_in_ms)
 {
+	sem_wait(&statmutex);
+
 	stats_arr[factory_number].eatenNum++;
 	if(stats_arr[factory_number].minDelay == -1) {
 		stats_arr[factory_number].minDelay = delay_in_ms;
@@ -68,6 +69,8 @@ void stats_record_consumed(int factory_number, double delay_in_ms)
 		stats_arr[factory_number].totalDelay += delay_in_ms;
 		stats_arr[factory_number].avgDelay = stats_arr[factory_number].totalDelay/(double)stats_arr[factory_number].eatenNum;
 	}
+
+	sem_post(&statmutex);
 }
 
 void stats_display(void)
