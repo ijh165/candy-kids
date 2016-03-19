@@ -87,8 +87,7 @@ int main(int argc, char* argv[])
 	
 
 	//6. Stop candy-factory threads
-	//Wait, sleep the main thread and allow the factory threads to produce for seconds and come back to join it
-	/*sleep(seconds);*/
+	
 	stop_thread = true;
 	
 	for(int i=0; i<factories; i++) {
@@ -97,7 +96,9 @@ int main(int argc, char* argv[])
 
 	
 	//7. Wait until no more candy
-	while(!bbuff_is_empty());
+	while(!bbuff_is_empty()) {
+		sleep(1);
+	}
 	
 	
 	//8. Stop kid threads
@@ -188,7 +189,7 @@ void* kid_thread(void* arg)
 		time_wait = rand()%2;
 		//extract from buffer
 		candy_t* candy_ptr = (candy_t*) bbuff_blocking_extract();
-		printf("\tKid %d eats candy & sleeps %ds\n", i, time_wait);
+		printf("\tKid %d eats candy & waits %ds\n", i, time_wait);
 		//process item into the stats module
 		if(candy_ptr!=NULL) {
 			stats_record_consumed(candy_ptr->factory_number, current_time_in_ms()-candy_ptr->time_stamp_in_ms);
