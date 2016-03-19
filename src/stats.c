@@ -78,7 +78,7 @@ void stats_display(void)
 	printf("\n=====================================Statistics=====================================\n");
 	printf("%s%10s%11s%18s%18s%18s\n", "Factory #", "# Made", "# Eaten", "Min Delay [ms]", "Avg Delay [ms]", "Max Delay [ms]");
 	for(int i=0; i<num_factories; i++) {
-		printf("%5d%11d%11d%17.5f%18.5f%18.5f\n",
+		printf("%5d%12d%10d%18.5f%19f%18.5f\n",
 				stats_arr[i].factoryNum,
 				stats_arr[i].madeNum,
 				stats_arr[i].eatenNum,

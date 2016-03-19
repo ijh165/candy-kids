@@ -65,6 +65,7 @@ int main(int argc, char* argv[])
 	
 	
 	//2. Initialize Modules
+	srand(time(NULL));
 	bbuff_init();
 	stats_init(factories);
 
