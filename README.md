@@ -7,7 +7,7 @@ Multithreaded program to solve the producer-consumer problem where candy factori
 
 #Files and Folders
 
-1) The "src" folder contains the source code and Makefile for the solution to the candy-kids problem. Do the following to run the program.
+1) The "src" folder contains the source code and Makefile for the solution to the candy-kids/producer-consumer problem. Do the following to run the program.
 - Run "make" command in terminal to build the executable "candykids"
 - Run the command: ./candykids <#factories> <#kids> <#seconds>
 - #factories: Number of candy-factory threads to spawn.
