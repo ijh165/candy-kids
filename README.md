@@ -1,5 +1,5 @@
 #candy-kids
-Multithreaded program to solve the producer-consumer problem where candy factories are the producer and kids are the consumer. A bounded-buffer with semaphores is used.
+Multithreaded program that simulates the producer-consumer problem where candy factories are the producer and kids are the consumer. A bounded-buffer with semaphores and mutexes is used.
 
 #Team Members
 1. Ivan Jonathan Hoo, ihoo@sfu.ca

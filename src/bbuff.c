@@ -38,10 +38,8 @@ void bbuff_blocking_insert(void* item)
 	sem_wait(&emptybuffers);
 	sem_wait(&mutex);
 
-	if(avail_slots > 0){
-		buff[BUFFER_SIZE - avail_slots] = item;
-		avail_slots--;
-	}
+	buff[BUFFER_SIZE - avail_slots] = item;
+	avail_slots--;
 
 	sem_post(&mutex);
 	sem_post(&fullbuffers);
@@ -53,12 +51,11 @@ void* bbuff_blocking_extract(void)
 {
 	sem_wait(&fullbuffers);
 	sem_wait(&mutex);
-
-	void* item_ptr = NULL;
-	if(avail_slots < BUFFER_SIZE) {
-		item_ptr = buff[BUFFER_SIZE - (avail_slots+1)];
-		avail_slots++;
-	}
+	
+	int idx = BUFFER_SIZE - (avail_slots+1);
+	void* item_ptr = buff[idx];
+	buff[idx] = NULL;
+	avail_slots++;
 
 	sem_post(&mutex);
 	sem_post(&emptybuffers);
