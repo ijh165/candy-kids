@@ -1,11 +1,11 @@
-#candy-kids
+# Candy Kids
 Multithreaded program that simulates the producer-consumer problem where candy factories are the producer and kids are the consumer. A bounded-buffer with semaphores and mutexes is used.
 
-#Team Members
+# Team Members
 1. Ivan Jonathan Hoo, ihoo@sfu.ca
 2. Raymond Chan, rca71@yahoo.com
 
-#Files and Folders
+# Files and Folders
 
 1) The "src" folder contains the source code and Makefile for the solution to the candy-kids/producer-consumer problem. Do the following to run the program.
 - Run "make" command in terminal to build the executable "candykids"
