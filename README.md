@@ -3,7 +3,7 @@ Multithreaded program that simulates the producer-consumer problem where candy f
 
 # Team Members
 1. Ivan Jonathan Hoo, ihoo@sfu.ca
-2. Raymond Chan, rca71@yahoo.com
+2. Raymond Chan, rca71@sfu.ca
 
 # Files and Folders
 
